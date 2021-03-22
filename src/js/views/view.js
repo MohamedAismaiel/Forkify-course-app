@@ -33,7 +33,6 @@ export default class View {
         <p>${message}</p>
       </div>`;
     this._clear();
-    console.log(this._parentElement);
     this._parentElement.insertAdjacentHTML('afterbegin', markUp);
   }
   renderMessage(message = this._successMessage) {
