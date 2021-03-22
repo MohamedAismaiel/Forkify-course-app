@@ -11,11 +11,17 @@ class addReciepeView extends View {
   constructor() {
     super();
     this._addHandlerShowWindow();
-    this._addHandlerHideWindow(); // we call it here because we want it to load as soon as the import the class and it has nothing to do with the controller, we use bind down here because remember in events the this keyword refers to the class
+    this._addHandlerHideWindow();
+    // we call it here because we want it to load as soon as the import the class and it has nothing to do with the controller, we use bind down here because remember in events the this keyword refers to the class
   }
   toggleWindow() {
     this._overlay.classList.toggle('hidden');
     this._window.classList.toggle('hidden');
+  }
+  reRenderTheUpload() {
+    setTimeout(() => {
+      this.render();
+    }, 500);
   }
 
   _addHandlerShowWindow() {
@@ -24,8 +30,11 @@ class addReciepeView extends View {
 
   _addHandlerHideWindow() {
     this._btnClose.addEventListener('click', this.toggleWindow.bind(this));
+    this._btnClose.addEventListener('click', this.reRenderTheUpload.bind(this));
     this._overlay.addEventListener('click', this.toggleWindow.bind(this));
+    // this.render();
   }
+
   addHandlerUpload(handler) {
     this._parentElement.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -36,8 +45,109 @@ class addReciepeView extends View {
       handler(data);
     });
   }
+  render() {
+    const markUp = this._generateMarkup();
 
-  _generateMarkup() {}
+    this._clear();
+    this._parentElement.insertAdjacentHTML('afterbegin', markUp);
+  }
+  _generateMarkup() {
+    return `      <form class="upload">
+    <div class="upload__column">
+      <h3 class="upload__heading">Recipe data</h3>
+      <label>Title</label>
+      <input
+        required
+        name="title"
+        type="text"
+        placeholder="enter a title"
+      />
+      <label>URL</label>
+      <input
+        required
+        name="sourceUrl"
+        type="text"
+        placeholder="enter source url"
+      />
+      <label>Image URL</label>
+      <input
+        required
+        name="image"
+        type="text"
+        placeholder="enter image source url"
+      />
+      <label>Publisher</label>
+      <input
+        required
+        name="publisher"
+        type="text"
+        placeholder="enter publisher name"
+      />
+      <label>Prep time</label>
+      <input
+        required
+        name="cookingTime"
+        type="number"
+        placeholder="enter preparation time"
+      />
+      <label>Servings</label>
+      <input
+        required
+        name="servings"
+        type="number"
+        placeholder="enter number to servings"
+      />
+    </div>
+
+    <div class="upload__column">
+      <h3 class="upload__heading">Ingredients</h3>
+      <label>Ingredient 1</label>
+      <input
+        type="text"
+        required
+        name="ingredient-1"
+        placeholder="Format: 'Quantity,Unit,Description'"
+      />
+      <label>Ingredient 2</label>
+      <input
+        type="text"
+        name="ingredient-2"
+        placeholder="Format: 'Quantity,Unit,Description'"
+      />
+      <label>Ingredient 3</label>
+      <input
+        type="text"
+        name="ingredient-3"
+        placeholder="Format: 'Quantity,Unit,Description'"
+      />
+      <label>Ingredient 4</label>
+      <input
+        type="text"
+        name="ingredient-4"
+        placeholder="Format: 'Quantity,Unit,Description'"
+      />
+      <label>Ingredient 5</label>
+      <input
+        type="text"
+        name="ingredient-5"
+        placeholder="Format: 'Quantity,Unit,Description'"
+      />
+      <label>Ingredient 6</label>
+      <input
+        type="text"
+        name="ingredient-6"
+        placeholder="Format: 'Quantity,Unit,Description'"
+      />
+    </div>
+
+    <button class="btn upload__btn">
+      <svg>
+        <use href="${icons}#icon-upload-cloud"></use>
+      </svg>
+      <span>Upload</span>
+    </button>
+  </form>`;
+  }
   //Page 1, and there are NO other pages
 }
 

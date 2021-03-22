@@ -95,6 +95,7 @@ const controlAddRecipe = async function (newRecipe) {
     addReciepeView.renderSpinner();
     //upload new recipe data
     await model.uploadRecipe(newRecipe);
+
     console.log(model.state.recipe);
     //render recipe
     recipeView.render(model.state.recipe);
@@ -113,12 +114,18 @@ const controlAddRecipe = async function (newRecipe) {
     setTimeout(function () {
       addReciepeView.toggleWindow();
     }, MODAL_CLOSE_SECONDS * 1000);
+    // setTimeout(function () {
+    //   addReciepeView._clear();
+    // }, MODAL_CLOSE_SECONDS * 1200);
+
+    setTimeout(function () {
+      addReciepeView.render();
+    }, MODAL_CLOSE_SECONDS * 1200);
   } catch (err) {
-    console.error(err);
-    recipeView.renderError(err.message);
+    console.error(`${err.message}from controller`);
+    addReciepeView.renderError(err.message);
   }
 };
-
 const init = function () {
   bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipe);

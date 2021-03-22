@@ -118,6 +118,7 @@ class RecipeView extends View {
     </a>
   </div>`;
   }
+
   _generateMarkeupIngredient(ing) {
     return ` <li class="recipe__ingredient">
     <svg class="recipe__icon">
